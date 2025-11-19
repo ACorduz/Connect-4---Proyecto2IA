@@ -29,17 +29,19 @@ class RandomAgent(Agent):
 
 
 class MinimaxAgent(Agent):
-    def __init__(self, depth: int = 4):
+    def __init__(self, depth: int = 4, player_symbol: str = MAX_PLAYER):
         self.depth = depth
-
+        self.player_symbol = player_symbol  
+    
     def get_move(self, board: Board) -> int:
-        return find_best_move_minimax(board, self.depth)
+        return find_best_move_minimax(board, self.depth, self.player_symbol)  
 
 
 class ExpectimaxAgent(Agent):
-    def __init__(self, depth: int = 4):
+    def __init__(self, depth: int = 4, player_symbol: str = MAX_PLAYER):  
         self.depth = depth
+        self.player_symbol = player_symbol
 
     def get_move(self, board: Board) -> int:
-        return find_best_move_expectimax(board, self.depth)
+        return find_best_move_expectimax(board, self.depth, self.player_symbol)
 

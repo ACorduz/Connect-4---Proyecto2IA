@@ -98,38 +98,41 @@ class Connect4GUI:
                  padx=20, pady=10).pack(pady=20)
         
     def start_game(self):
-        """Inicia una nueva partida con la configuración elegida."""
         # Configurar IA
         depth = self.depth_var.get()
-        if self.ai_choice.get() == "expectimax":
-            self.ai_agent = ExpectimaxAgent(depth=depth)
-            ai_name = "Expectimax"
-        else:
-            self.ai_agent = MinimaxAgent(depth=depth)
-            ai_name = "Minimax"
         
-        # Configurar símbolos
+        # Configurar símbolos primero
         self.human_symbol = self.symbol_choice.get()
         if self.human_symbol == "O":
             self.ai_symbol = "X"
         else:
             self.ai_symbol = "O"
         
-        # Inicializar juego
+        # Crear agente con el símbolo correcto
+        if self.ai_choice.get() == "expectimax":
+            self.ai_agent = ExpectimaxAgent(depth=depth, player_symbol=self.ai_symbol)  
+            ai_name = "Expectimax"
+        else:
+            self.ai_agent = MinimaxAgent(depth=depth, player_symbol=self.ai_symbol)  
+            ai_name = "Minimax"
+
+         # Inicializar estado de la partida
         self.board = create_board()
         self.current_player = MAX_PLAYER  # O siempre empieza
         self.game_over = False
-        
-        # Crear interfaz de juego
+
+        # Dibujar la pantalla de juego
         self.setup_game_board()
-        
-        # Mostrar info
-        info_text = f"Jugando contra {ai_name} (profundidad {depth})\n"
-        info_text += f"Tú: {self.human_symbol} | IA: {self.ai_symbol}\n"
-        info_text += f"Empieza: {self.current_player}"
+
+        # Mostrar texto informativo
+        info_text = (
+            f"Jugando contra {ai_name} (profundidad {depth})\n"
+            f"Tú: {self.human_symbol} | IA: {self.ai_symbol}\n"
+            f"Empieza: {self.current_player}"
+        )
         self.info_label.config(text=info_text)
-        
-        # Si la IA empieza, hacer su movimiento
+
+        # Si la IA es quien inicia, hacer su jugada en 0.5 s
         if self.current_player == self.ai_symbol:
             self.root.after(500, self.ai_move)
     

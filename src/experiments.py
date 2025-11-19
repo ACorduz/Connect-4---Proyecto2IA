@@ -56,6 +56,7 @@ def run_experiments(num_games: int = 20) -> None:
     - Minimax vs Random
     - Expectimax vs Random
     """
+    '''
     print("=== Experimento 1: Minimax (MAX) vs Random (MIN) ===")
     minimax_agent = MinimaxAgent(depth=4)
     random_agent = RandomAgent()
@@ -84,7 +85,39 @@ def run_experiments(num_games: int = 20) -> None:
         else:
             draws += 1
     print(f"Expectimax vs Random (MAX): {wins} victorias, {losses} derrotas, {draws} empates")
+    '''
+    print("\n=== Experimento 3: Minimax (MAX) vs Expectimax (MIN) ===")
+    minimax_agent = MinimaxAgent(depth=4)
+    expectimax_agent = ExpectimaxAgent(depth=4)
 
+    wins = losses = draws = 0
+    for _ in range(num_games):
+        result = play_game(minimax_agent, expectimax_agent, verbose=False)
+        if result == MAX_PLAYER:
+            wins += 1
+        elif result == MIN_PLAYER:
+            losses += 1
+        else:
+            draws += 1
+
+    print(f"Minimax vs Expectimax (MAX vs MIN): {wins} victorias MAX, {losses} victorias MIN, {draws} empates")
+
+    print("\n=== Experimento 4: Expectimax (MAX) vs Minimax (MIN) ===")
+    expectimax_agent = ExpectimaxAgent(depth=4)
+    minimax_agent = MinimaxAgent(depth=4)
+
+    wins = losses = draws = 0
+    for _ in range(num_games):
+        result = play_game(expectimax_agent, minimax_agent, verbose=False)
+        if result == MAX_PLAYER:
+            wins += 1
+        elif result == MIN_PLAYER:
+            losses += 1
+        else:
+            draws += 1
+
+    print(f"Expectimax vs Minimax (MAX vs MIN): {wins} victorias MAX, {losses} victorias MIN, {draws} empates")
+    
 
 if __name__ == "__main__":
     run_experiments(num_games=10)

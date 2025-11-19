@@ -38,26 +38,23 @@ def choose_ai() -> str:
 
 def main():
     ai_choice = choose_ai()
-    if ai_choice == "2":
-        ai_agent = ExpectimaxAgent(depth=4)
-        print("Has elegido jugar contra Expectimax (profundidad 4).")
-    else:
-        ai_agent = MinimaxAgent(depth=4)
-        print("Has elegido jugar contra Minimax (profundidad 4).")
-
-    print("¿Quieres jugar como O (MAX) o como X (MIN)?")
-    print("Ojo: en esta implementación MAX es el jugador para el que se optimiza la IA.")
     symbol = input("Elige [O/X]: ").strip().upper()
-
+    
     if symbol == "X":
         human_symbol = MIN_PLAYER
         ai_symbol = MAX_PLAYER
-        human_is_max = False
     else:
         human_symbol = MAX_PLAYER
         ai_symbol = MIN_PLAYER
-        human_is_max = True
-
+    
+    # Crear agente con el símbolo correcto
+    if ai_choice == "2":
+        ai_agent = ExpectimaxAgent(depth=4, player_symbol=ai_symbol) 
+        print("Has elegido jugar contra Expectimax (profundidad 4).")
+    else:
+        ai_agent = MinimaxAgent(depth=4, player_symbol=ai_symbol) 
+        print("Has elegido jugar contra Minimax (profundidad 4).")
+    
     board = create_board()
     current_player = MAX_PLAYER
 
